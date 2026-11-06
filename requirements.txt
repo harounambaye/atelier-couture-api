@@ -1,0 +1,22 @@
+# --- API ---
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.33
+
+# --- Base de données ---
+sqlalchemy==2.1.8
+psycopg[binary]==3.3.8
+alembic==1.20.1
+
+# --- Validation et configuration ---
+pydantic==2.14.3
+pydantic-settings==2.16.2
+email-validator==2.3.0
+
+# --- Sécurité ---
+pyjwt==2.15.1
+argon2-cffi==25.1.0
+
+# --- Tests ---
+pytest==9.2.0
+httpx2==2.16.0
