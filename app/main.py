@@ -8,4 +8,4 @@ app = FastAPI(
 @app.get("/health", tags=["Santé"])
 def health():
     # Version provisoire
-    return {"status":"ok"}
+    return {"status":"OK", "message":"L'API est opérationnelle."}
