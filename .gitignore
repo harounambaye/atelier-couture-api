@@ -1,0 +1,19 @@
+# Environnement virtuel
+venv/
+.venv/
+
+# Fichier Python compilés
+__pycache__/
+*.pyc
+
+# Secrets (ne JAMAIS commiter)
+.env
+
+# Tests et couverture
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editeurs
+.vscode/
+.idea/
