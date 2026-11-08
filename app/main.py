@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 
-from app.routers import health
+from app.routers import auth, health
+
+PREFIXE_API = "/api/v1"
 
 app = FastAPI(
     title="API Atelier de couture",
@@ -9,4 +11,5 @@ app = FastAPI(
 )
 
 app.include_router(health.router)
+app.include_router(auth.router, prefix=PREFIXE_API)
 
