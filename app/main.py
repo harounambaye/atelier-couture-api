@@ -1,11 +1,12 @@
 from fastapi import FastAPI
+
+from app.routers import health
+
 app = FastAPI(
     title="API Atelier de couture",
-    description="Gestion des clients, mesures, commandes, paiements et livraison.",
+    description="Gestion des clients, mesures, commandes, paiements et livraisons.",
     version="1.0.0",
 )
 
-@app.get("/health", tags=["Santé"])
-def health():
-    # Version provisoire
-    return {"status":"OK", "message":"L'API est opérationnelle."}
+app.include_router(health.router)
+

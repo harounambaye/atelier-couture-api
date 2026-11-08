@@ -1,0 +1,1 @@
+CREATE DATABASE atelier_test;
