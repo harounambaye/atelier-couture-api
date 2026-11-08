@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import auth, catalogue, clients, commandes, health, mesures, utilisateurs
+from app.routers import auth, catalogue, clients, commandes, health, mesures, paiements, utilisateurs
 
 PREFIXE_API = "/api/v1"
 
@@ -17,3 +17,4 @@ app.include_router(clients.router, prefix=PREFIXE_API)
 app.include_router(catalogue.router, prefix=PREFIXE_API)
 app.include_router(mesures.router, prefix=PREFIXE_API)
 app.include_router(commandes.router, prefix=PREFIXE_API)
+app.include_router(paiements.router, prefix=PREFIXE_API)
