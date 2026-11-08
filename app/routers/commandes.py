@@ -8,14 +8,17 @@ from app.database import get_db
 from app.dependencies import exiger_roles, get_utilisateur_connecte
 from app.models import Utilisateur
 from app.schemas.commande import (
+    ChangementStatut,
     CommandeCreation,
     CommandeDetail,
     CommandeModification,
     CommandeResume,
+    HistoriqueStatutLecture,
     LigneCommandeCreation,
 )
 from app.schemas.pagination import Page
 from app.services import commandes as service
+from app.services import statuts as service_statuts
 
 router = APIRouter(prefix="/commandes", tags=["Commandes"])
 
@@ -82,6 +85,29 @@ def modifier(
     commande = service.modifier_commande(db, commande_id, donnees)
     db.commit()
     return service.construire_detail(commande)
+
+
+@router.post("/{commande_id}/statut", response_model=CommandeDetail)
+def changer_statut(
+    commande_id: int,
+    donnees: ChangementStatut,
+    db: Session = Depends(get_db),
+    utilisateur: Utilisateur = Depends(get_utilisateur_connecte),
+):
+    """Fait avancer la commande dans le workflow (RG13-RG15)."""
+    commande = service_statuts.changer_statut(db, commande_id, donnees, utilisateur)
+    db.commit()
+    return service.construire_detail(commande)
+
+
+@router.get("/{commande_id}/historique", response_model=list[HistoriqueStatutLecture])
+def historique(
+    commande_id: int,
+    db: Session = Depends(get_db),
+    utilisateur: Utilisateur = Depends(get_utilisateur_connecte),
+):
+    """Historique des statuts, du plus ancien au plus récent."""
+    return service_statuts.lire_historique(db, commande_id)
 
 
 @router.post("/{commande_id}/lignes", response_model=CommandeDetail, status_code=201)
