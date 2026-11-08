@@ -9,6 +9,7 @@ from app.routers import (
     livraisons,
     mesures,
     paiements,
+    statistiques,
     utilisateurs,
 )
 
@@ -29,3 +30,4 @@ app.include_router(mesures.router, prefix=PREFIXE_API)
 app.include_router(commandes.router, prefix=PREFIXE_API)
 app.include_router(paiements.router, prefix=PREFIXE_API)
 app.include_router(livraisons.router, prefix=PREFIXE_API)
+app.include_router(statistiques.router, prefix=PREFIXE_API)
