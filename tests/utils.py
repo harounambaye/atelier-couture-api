@@ -39,3 +39,49 @@ def entete_pour_role(db, client, role):
     email = role + "@test.sn"
     creer_utilisateur(db, role, email, TELEPHONES_ROLES[role])
     return entete_auth(client, email)
+
+
+def creer_client_bd(db, telephone="771234567", nom="Diop", prenom="Fatou", genre="femme"):
+    from app.models import Client
+
+    nouveau = Client(nom=nom, prenom=prenom, telephone=telephone, genre=genre)
+    db.add(nouveau)
+    db.commit()
+    db.refresh(nouveau)
+    return nouveau
+
+
+def creer_prestation_bd(db, nom="Boubou", prix_base=35000, delai_jours=10, actif=True):
+    from app.models import TypeVetement
+
+    prestation = TypeVetement(
+        nom=nom, prix_base=prix_base, delai_jours=delai_jours, actif=actif
+    )
+    db.add(prestation)
+    db.commit()
+    db.refresh(prestation)
+    return prestation
+
+
+def creer_mesure_bd(db, client_bd, tailleur_id, date_prise=None, tour_cou=38):
+    from datetime import date
+
+    from app.models import Mesure
+
+    mesure = Mesure(
+        client_id=client_bd.id,
+        date_prise=date_prise or date.today(),
+        prise_par_id=tailleur_id,
+        tour_cou=tour_cou,
+    )
+    db.add(mesure)
+    db.commit()
+    db.refresh(mesure)
+    return mesure
+
+
+def creer_commande_api(client, entete, client_id, lignes, **extras):
+    """lignes = liste de dictionnaires {type_vetement_id, quantite, prix_unitaire?}"""
+    donnees = {"client_id": client_id, "lignes": lignes}
+    donnees.update(extras)
+    return client.post("/api/v1/commandes", json=donnees, headers=entete)
