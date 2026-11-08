@@ -3,7 +3,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
-from app.services.telephone import normaliser_telephone, telephone_est_valide
+from app.services.telephone import verifier_telephone
 
 
 class UtilisateurCreation(BaseModel):
@@ -21,10 +21,7 @@ class UtilisateurCreation(BaseModel):
     @field_validator("telephone")
     @classmethod
     def verifier_telephone(cls, valeur: str) -> str:
-        telephone = normaliser_telephone(valeur)
-        if not telephone_est_valide(telephone):
-            raise ValueError("Numéro de téléphone invalide : 6 à 20 chiffres, « + » initial facultatif")
-        return telephone
+        return verifier_telephone(valeur)
 
 
 class UtilisateurModification(BaseModel):

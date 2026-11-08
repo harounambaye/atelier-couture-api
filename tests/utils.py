@@ -30,3 +30,12 @@ def entete_auth(client, identifiant, mot_de_passe=MOT_DE_PASSE):
     reponse = se_connecter(client, identifiant, mot_de_passe)
     jeton = reponse.json()["access_token"]
     return {"Authorization": "Bearer " + jeton}
+
+TELEPHONES_ROLES = {"admin": "700000001", "accueil": "700000002", "tailleur": "700000003"}
+
+
+def entete_pour_role(db, client, role):
+    """Crée un compte de ce rôle et renvoie l'en-tête Authorization."""
+    email = role + "@test.sn"
+    creer_utilisateur(db, role, email, TELEPHONES_ROLES[role])
+    return entete_auth(client, email)
