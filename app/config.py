@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     # Base de données
     database_url: str
 
+    test_database_url: str | None = None
+
     # Sécurité JWT
     secret_key: str
     algorithm: str = "HS256"
