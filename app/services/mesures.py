@@ -1,10 +1,10 @@
 from datetime import date
 
 from fastapi import HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.models import Utilisateur
+from app.models import Commande, Utilisateur
 from app.models.mesure import CHAMPS_MESURES, Mesure
 from app.schemas.mesure import MesureCreation, MesureModification
 from app.services.clients import lire_client
@@ -98,5 +98,16 @@ def modifier_mesure(db: Session, mesure_id: int, donnees: MesureModification) ->
 
 def supprimer_mesure(db: Session, mesure_id: int) -> None:
     mesure = lire_mesure(db, mesure_id)
+
+    # RG4 : une prise utilisée par une commande ne peut pas être supprimée
+    nombre_commandes = db.scalar(
+        select(func.count()).select_from(Commande).where(Commande.mesure_id == mesure.id)
+    )
+    if nombre_commandes > 0:
+        raise HTTPException(
+            status_code=409,
+            detail="Ces mesures sont utilisées par une commande : impossible de les supprimer",
+        )
+
     db.delete(mesure)
     db.flush()

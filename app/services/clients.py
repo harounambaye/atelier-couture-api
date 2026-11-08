@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
-from app.models import Client
+from app.models import Client, Commande
 from app.schemas.client import ClientCreation, ClientModification
 from app.services.telephone import normaliser_telephone
 
@@ -85,6 +85,17 @@ def modifier_client(db: Session, client_id: int, donnees: ClientModification) ->
 
 def supprimer_client(db: Session, client_id: int) -> None:
     client = lire_client(db, client_id)
+
+    # RG4 : un client qui a des commandes ne peut pas être supprimé
+    nombre_commandes = db.scalar(
+        select(func.count()).select_from(Commande).where(Commande.client_id == client.id)
+    )
+    if nombre_commandes > 0:
+        raise HTTPException(
+            status_code=409,
+            detail="Ce client a des commandes : impossible de le supprimer",
+        )
+
     # Les mesures du client sont supprimées par la base (ON DELETE CASCADE)
     db.delete(client)
     db.flush()
