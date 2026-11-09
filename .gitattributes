@@ -1,0 +1,3 @@
+# Les scripts shell sont lus par Linux dans le conteneur : fins de ligne LF obligatoires
+*.sh text eol=lf
+Dockerfile text eol=lf
