@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="Atelier Couture API : FastAPI, PostgreSQL, JWT, Docker" width="100%">
+</p>
+
 # API de gestion d'un atelier de couture
 
 Projet final du module « Développement d'API avec FastAPI et PostgreSQL ».
