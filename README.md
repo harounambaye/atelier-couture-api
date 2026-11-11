@@ -221,3 +221,11 @@ Toutes les routes ont le préfixe `/api/v1`, sauf `/health`.
 alembic revision --autogenerate -m "description"   # nouvelle migration (relire le fichier généré !)
 alembic upgrade head                               # appliquer les migrations
 ```
+
+## ✍️ Auteur
+
+**Harouna MBAYE**
+- GitHub : [@harounambaye](https://github.com/harounambaye)
+- LinkedIn : [Harouna Mbaye](https://www.linkedin.com/in/harouna-mbaye-088926239/)
+- Portfolio :[harouna-mbaye](https://harouna-mbaye.netlify.app/)
+- Email : roonmbaye5@gmail.com
